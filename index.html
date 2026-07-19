@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>Nantucket, Late August — A Proposal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital@0;1&family=Public+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --fog:#F1F2EE;
+    --ink:#131E25;
+    --harbor:#26404F;
+    --hydrangea:#33538C;
+    --cedar:#A79B85;
+    --buoy:#A63D2F;
+    --hairline:rgba(19,30,37,.22);
+    --card:#F8F9F6;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;background:#F1F2EE;color-scheme:light only}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{
+    background:var(--fog);
+    color:var(--ink);
+    font-family:'Public Sans',system-ui,sans-serif;
+    font-size:17px;line-height:1.65;
+    padding-bottom:86px; /* room for sticky total */
+  }
+  a{color:var(--hydrangea);text-decoration-thickness:1px;text-underline-offset:3px}
+  a:hover{color:var(--buoy)}
+  a:focus-visible,button:focus-visible,input:focus-visible,[role="radio"]:focus-visible{outline:2px solid var(--buoy);outline-offset:3px}
+  .wrap{max-width:720px;margin:0 auto;padding:0 24px}
+
+  /* ---------- Hero ---------- */
+  header{
+    background:linear-gradient(180deg,#22333C 0%, #35586C 78%, #4A6FA5 130%);
+    color:#E9EDEA;
+    padding:76px 0 60px;
+    position:relative;
+    overflow:hidden;
+  }
+  header .wrap{position:relative;z-index:1}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+    color:#BFCDD3;margin-bottom:20px;
+  }
+  h1{
+    font-family:'Libre Caslon Display',serif;
+    font-weight:400;font-size:clamp(44px,9vw,76px);
+    line-height:1.02;letter-spacing:-.01em;
+  }
+  .hero-sub{
+    font-family:'Libre Caslon Text',serif;font-style:italic;
+    font-size:clamp(18px,3vw,22px);color:#C9D5D9;
+    margin-top:18px;max-width:34ch;
+  }
+  .hero-meta{
+    margin-top:34px;display:flex;flex-wrap:wrap;gap:10px 28px;
+    font-family:'IBM Plex Mono',monospace;font-size:13px;color:#AEBFC6;
+  }
+  .swell{position:absolute;left:0;right:0;bottom:-2px;height:54px;color:var(--fog)}
+
+  /* ---------- Sections ---------- */
+  section{padding:52px 0 8px}
+  .kicker{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;
+    letter-spacing:.22em;text-transform:uppercase;color:var(--harbor);
+    display:flex;align-items:center;gap:14px;margin-bottom:14px;
+  }
+  .kicker::after{content:"";flex:1;height:1px;background:var(--hairline)}
+  h2{
+    font-family:'Libre Caslon Display',serif;font-weight:400;
+    font-size:clamp(28px,5vw,36px);line-height:1.15;margin-bottom:18px;
+  }
+  p{margin-bottom:16px;max-width:62ch}
+  .note{
+    font-family:'Libre Caslon Text',serif;font-style:italic;
+    color:var(--harbor);border-left:2px solid var(--cedar);
+    padding-left:16px;margin:22px 0;
+  }
+
+  /* ---------- Option cards ---------- */
+  .options{list-style:none;margin:8px 0 10px;display:grid;gap:12px}
+  .opt{
+    border:1px solid var(--hairline);
+    background:var(--card);
+    padding:18px 18px 14px;
+    cursor:pointer;
+    transition:border-color .15s, box-shadow .15s;
+    position:relative;
+  }
+  .opt:hover{border-color:var(--harbor)}
+  .opt.selected{
+    border-color:var(--harbor);
+    box-shadow:inset 0 0 0 1px var(--harbor);
+  }
+  .opt.selected::after{
+    content:"CHOSEN";
+    position:absolute;top:14px;right:14px;
+    font-family:'IBM Plex Mono',monospace;font-size:10px;
+    letter-spacing:.18em;color:#fff;background:var(--harbor);
+    padding:3px 8px;
+  }
+  .opt .tag{
+    font-family:'IBM Plex Mono',monospace;font-size:11.5px;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--cedar);
+  }
+  .opt h3{
+    font-family:'Libre Caslon Text',serif;font-weight:400;
+    font-size:20px;margin:4px 0 6px;
+  }
+  .opt p{margin-bottom:6px;font-size:15.5px}
+  .opt .price{
+    font-family:'IBM Plex Mono',monospace;font-size:13.5px;color:var(--harbor);
+  }
+  .opt-hint{
+    font-size:13.5px;color:var(--harbor);
+    font-family:'IBM Plex Mono',monospace;margin-bottom:6px;
+  }
+
+  /* ---------- Pill toggles ---------- */
+  .pills{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 18px}
+  .pill{
+    font-family:'IBM Plex Mono',monospace;font-size:13.5px;
+    border:1px solid var(--hairline);background:var(--card);
+    color:var(--ink);
+    padding:9px 16px;cursor:pointer;
+  }
+  .pill:hover{border-color:var(--harbor)}
+  .pill.selected{background:var(--harbor);border-color:var(--harbor);color:#fff}
+
+  /* ---------- Checkbox row ---------- */
+  .checkrow{
+    display:flex;align-items:flex-start;gap:12px;
+    border:1px solid var(--hairline);background:var(--card);
+    padding:16px 18px;margin:6px 0 18px;cursor:pointer;
+  }
+  .checkrow input{accent-color:var(--harbor);width:18px;height:18px;margin-top:4px;flex-shrink:0}
+  .checkrow .price{font-family:'IBM Plex Mono',monospace;font-size:13.5px;color:var(--harbor)}
+
+  /* ---------- Static info cards ---------- */
+  .cardlist{list-style:none;margin:8px 0 16px}
+  .cardlist li{border-top:1px solid var(--hairline);padding:18px 0}
+  .cardlist li:last-child{border-bottom:1px solid var(--hairline)}
+  .cardlist h3{font-family:'Libre Caslon Text',serif;font-weight:400;font-size:20px;margin-bottom:6px}
+  .cardlist .tag{
+    font-family:'IBM Plex Mono',monospace;font-size:11.5px;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--cedar);
+  }
+  .cardlist p{margin-bottom:6px}
+
+  /* ---------- Ledger ---------- */
+  .ledger{
+    background:var(--card);
+    border:1px solid var(--hairline);
+    padding:28px 26px 22px;
+    margin:10px 0 26px;
+  }
+  .ledger-head{
+    font-family:'IBM Plex Mono',monospace;font-size:11.5px;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--harbor);
+    display:flex;justify-content:space-between;
+    border-bottom:1px solid var(--ink);padding-bottom:10px;margin-bottom:4px;
+  }
+  .ledger-row{
+    display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+    padding:11px 0;border-bottom:1px dotted var(--hairline);
+    font-size:16px;
+  }
+  .ledger-row .item{flex:1}
+  .ledger-row .detail{
+    display:block;font-size:13px;color:var(--harbor);
+    font-family:'IBM Plex Mono',monospace;
+  }
+  .ledger-row .amt{font-family:'IBM Plex Mono',monospace;font-size:14.5px;white-space:nowrap}
+  .ledger-row.off{color:var(--cedar)}
+  .ledger-row.off .amt{text-decoration:line-through}
+  .ledger-row.off .detail{color:var(--cedar)}
+  .ledger-total{
+    display:flex;justify-content:space-between;align-items:baseline;
+    padding-top:16px;margin-top:4px;border-top:2px solid var(--ink);
+  }
+  .ledger-total .label{font-family:'Libre Caslon Text',serif;font-style:italic;font-size:18px}
+  .ledger-total .amt{font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:19px}
+  .ledger-foot{font-size:14px;color:var(--ink);opacity:.85;margin-top:12px;line-height:1.5;max-width:none}
+
+  /* ---------- Sticky total bar ---------- */
+  .totalbar{
+    position:fixed;left:0;right:0;bottom:0;z-index:10;
+    background:var(--ink);color:#E9EDEA;
+    padding:14px 0;
+    box-shadow:0 -4px 18px rgba(19,30,37,.25);
+  }
+  .totalbar .wrap{
+    display:flex;justify-content:space-between;align-items:baseline;gap:16px;
+  }
+  .totalbar .label{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;
+    letter-spacing:.18em;text-transform:uppercase;color:#AEBFC6;
+  }
+  .totalbar .amt{
+    font-family:'IBM Plex Mono',monospace;font-weight:500;
+    font-size:clamp(16px,4vw,20px);
+  }
+
+  /* ---------- Links ---------- */
+  .linklist{list-style:none;margin:6px 0 20px}
+  .linklist li{
+    padding:10px 0;border-bottom:1px dotted var(--hairline);
+    display:flex;flex-wrap:wrap;gap:4px 12px;justify-content:space-between;
+  }
+  .linklist .what{color:var(--harbor);font-size:14.5px}
+
+  footer{
+    margin-top:56px;padding:34px 0 46px;
+    border-top:1px solid var(--hairline);
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--harbor);
+  }
+  footer p{max-width:none}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">A trip for two &middot; choose your own voyage</div>
+    <h1>Nantucket,<br>Late August</h1>
+    <p class="hero-sub">Three or four days on the Grey Lady &mdash; bikes, whales, fog, and a very old museum with a very large skeleton. Pick the options below and the ledger keeps score.</p>
+    <div class="hero-meta">
+      <span>PHL &rarr; ACK &middot; ~90 min nonstop</span>
+      <span>two travelers</span>
+      <span>total updates as you choose</span>
+    </div>
+  </div>
+  <svg class="swell" viewBox="0 0 1200 54" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,30 C150,54 300,6 450,26 C600,46 750,10 900,28 C1050,46 1150,22 1200,30 L1200,54 L0,54 Z" fill="currentColor"/>
+  </svg>
+</header>
+
+<main class="wrap">
+
+  <section>
+    <div class="kicker">First decision</div>
+    <h2>How long do we stay?</h2>
+    <p>Nights on island. Hotel, bikes, dining, and the cat sitter all scale with this.</p>
+    <div class="pills" id="nightsPills" role="radiogroup" aria-label="Nights on island">
+      <button class="pill selected" data-nights="3" role="radio" aria-checked="true">3 nights</button>
+      <button class="pill" data-nights="4" role="radio" aria-checked="false">4 nights</button>
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">Getting there</div>
+    <h2>Fly, don't float</h2>
+    <p>Nonstop flights from Philadelphia to Nantucket Memorial (American / JetBlue) take about an hour and a half. Round trips have recently run <strong>$330&ndash;440 per person</strong>, trending higher in peak late August &mdash; the ledger carries $700&ndash;1,000 for the two of us.</p>
+    <p>We looked hard at a romantic all-rail route (Amtrak, the CapeFLYER train, fast ferry). Verdict: ~10 hours each way to save maybe $200. Flying wins.</p>
+    <p class="note">Caveat: the small planes into ACK are famously fog-prone. Book morning flights, keep expectations flexible.</p>
+  </section>
+
+  <section>
+    <div class="kicker">Choose one &middot; where we stay</div>
+    <h2>Old whale money, creaky floors</h2>
+    <p>The goal: a place that <em>feels</em> like Nantucket &mdash; not a resort that could be anywhere. Tap a candidate to put it in the ledger. Nightly figures are peak-season estimates including tax.</p>
+    <ul class="options" id="hotelOptions" role="radiogroup" aria-label="Hotel choice">
+      <li class="opt selected" data-key="jared" role="radio" aria-checked="true" tabindex="0">
+        <span class="tag">The classic</span>
+        <h3><a href="https://jaredcoffinhouse.com" target="_blank" rel="noopener">Jared Coffin House</a></h3>
+        <p>An 1845 brick mansion from the island's whaling heyday &mdash; antique furnishings, old-world creak, steps from the Whaling Museum. Often the best value of the character hotels.</p>
+        <span class="price">est. $450&ndash;650 / night</span>
+      </li>
+      <li class="opt" data-key="union" role="radio" aria-checked="false" tabindex="0">
+        <span class="tag">The romantic</span>
+        <h3><a href="https://unioninn.com" target="_blank" rel="noopener">Union Street Inn</a></h3>
+        <p>A tiny, top-rated inn in a 1770s house downtown. Quaint rooms, celebrated cooked breakfast, walk-everywhere location. Books up fast.</p>
+        <span class="price">est. $600&ndash;800 / night</span>
+      </li>
+      <li class="opt" data-key="nanthotel" role="radio" aria-checked="false" tabindex="0">
+        <span class="tag">The full experience</span>
+        <h3><a href="https://www.thenantuckethotel.com" target="_blank" rel="noopener">The Nantucket Hotel &amp; Resort</a></h3>
+        <p>Bigger and livelier, with pools and a guests-only whale watching charter run by a born-and-raised island captain.</p>
+        <span class="price">est. $650&ndash;900 / night</span>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <div class="kicker">Choose one &middot; getting around</div>
+    <h2>Two wheels, whole island</h2>
+    <p>Nantucket is 14 miles long with ~35 miles of paved paths running <em>separate from</em> the roads. We'd rent from <a href="https://youngsbicycleshop.com" target="_blank" rel="noopener">Young's Bicycle Shop</a> (family-run since 1931, right at the wharf). Prices below are per person, per day.</p>
+    <ul class="options" id="bikeOptions" role="radiogroup" aria-label="Bike choice">
+      <li class="opt selected" data-key="cruiser" role="radio" aria-checked="true" tabindex="0">
+        <span class="tag">Paths &amp; town</span>
+        <h3>Cruiser / hybrid</h3>
+        <p>Comfy 8-speeds with racks for beach gear. Perfect for the 'Sconset loop and Madaket sunset ride.</p>
+        <span class="price">est. $35&ndash;45 / day each</span>
+      </li>
+      <li class="opt" data-key="trail" role="radio" aria-checked="false" tabindex="0">
+        <span class="tag">Paths + the moors</span>
+        <h3>Trail bikes</h3>
+        <p>Cannondales with front suspension and trail geometry &mdash; unlocks the sandy doubletrack of the Middle Moors and Altar Rock, the best riding on the island.</p>
+        <span class="price">est. $45&ndash;60 / day each</span>
+      </li>
+      <li class="opt" data-key="ebike" role="radio" aria-checked="false" tabindex="0">
+        <span class="tag">Maximum range</span>
+        <h3>E-bikes</h3>
+        <p>Bosch pedal-assist, 65-mile range, both ends of the island in a day. Overkill for us, but listed for honesty. 2-day minimum in peak season.</p>
+        <span class="price">est. $90&ndash;110 / day each</span>
+      </li>
+    </ul>
+    <p class="note">Fine print: Main Street is lumpy historic cobblestone &mdash; everyone walks their bikes a block &mdash; and the ocean headwind home from Madaket is a rite of passage.</p>
+  </section>
+
+  <section>
+    <div class="kicker">The itinerary anchors</div>
+    <h2>Whales, past and present</h2>
+    <ul class="cardlist">
+      <li>
+        <span class="tag">Locked in &middot; $20 each</span>
+        <h3><a href="https://nha.org/visit/museums-and-tours/whaling-museum/" target="_blank" rel="noopener">The Whaling Museum</a></h3>
+        <p>A restored 1847 candle factory with a 46-foot sperm whale skeleton overhead, the story of the whaleship <em>Essex</em> (the real-life inspiration for <em>Moby-Dick</em>), and a rooftop deck over the harbor.</p>
+      </li>
+      <li>
+        <span class="tag">If dates align &middot; free to watch</span>
+        <h3><a href="https://fishernantucket.com/2026-nantucket-calendar-of-events/" target="_blank" rel="noopener">Race Week &amp; the Opera House Cup</a></h3>
+        <p>Aug 12&ndash;16: nine days of regattas ending with a parade of all-wooden classic boats. After the 16th the island mellows &mdash; same weather, thinner crowds.</p>
+      </li>
+    </ul>
+    <label class="checkrow" for="whaleCheck">
+      <input type="checkbox" id="whaleCheck" checked>
+      <span>
+        <strong><a href="https://www.nantucketbywater.com" target="_blank" rel="noopener">Whale watching</a></strong> &mdash; late August is prime feeding season: humpbacks, finbacks, and minkes summer here April&ndash;October, and feeding whales are the active, breaching kind. Island trips run 30&ndash;40 miles offshore (4+ hours). No guarantees, but the timing is genuinely good.<br>
+        <span class="price">+ est. $250&ndash;400 for two</span>
+      </span>
+    </label>
+  </section>
+
+  <section>
+    <div class="kicker">Choose one &middot; the food question</div>
+    <h2>Chowder or caviar?</h2>
+    <p>Nantucket dining runs from excellent casual (Something Natural sandwiches, Millie's tacos, chowder shacks) to serious splurge territory. Daily figure for the two of us, all meals in.</p>
+    <div class="pills" id="diningPills" role="radiogroup" aria-label="Dining style">
+      <button class="pill selected" data-key="casual" role="radio" aria-checked="true">Mostly casual &middot; $130&ndash;190/day</button>
+      <button class="pill" data-key="mix" role="radio" aria-checked="false">Mix + nice dinners &middot; $180&ndash;275/day</button>
+      <button class="pill" data-key="splurge" role="radio" aria-checked="false">Full splurge &middot; $275&ndash;400/day</button>
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">Choose one &middot; meanwhile, at home</div>
+    <h2>The cats</h2>
+    <p>A <a href="https://www.rover.com/philadelphia--pa--cat-sitting/" target="_blank" rel="noopener">Rover</a> sitter doing drop-in visits. Philadelphia drop-ins average about $21 per 30-minute visit, and Rover typically doubles it for two cats. Sitter days = nights away.</p>
+    <div class="pills" id="catPills" role="radiogroup" aria-label="Cat sitter frequency">
+      <button class="pill selected" data-key="once" role="radio" aria-checked="true">Once daily &middot; ~$25&ndash;45/day</button>
+      <button class="pill" data-key="twice" role="radio" aria-checked="false">Twice daily &middot; ~$50&ndash;85/day</button>
+    </div>
+  </section>
+
+  <section id="ledgerSection">
+    <div class="kicker">The ledger</div>
+    <h2>What the voyage costs</h2>
+    <div class="ledger" aria-label="Estimated trip expenses" aria-live="polite">
+      <div class="ledger-head"><span>Entry</span><span>Low &mdash; High</span></div>
+      <div class="ledger-row"><span class="item">Flights, PHL &harr; ACK &times; 2</span><span class="amt" id="amtFlights"></span></div>
+      <div class="ledger-row"><span class="item">Hotel<span class="detail" id="detHotel"></span></span><span class="amt" id="amtHotel"></span></div>
+      <div class="ledger-row"><span class="item">Bikes &times; 2<span class="detail" id="detBikes"></span></span><span class="amt" id="amtBikes"></span></div>
+      <div class="ledger-row"><span class="item">Taxis &amp; rainy-day buffer</span><span class="amt" id="amtBuffer"></span></div>
+      <div class="ledger-row"><span class="item">Whaling Museum &times; 2</span><span class="amt" id="amtMuseum"></span></div>
+      <div class="ledger-row" id="rowWhale"><span class="item">Whale watch<span class="detail" id="detWhale"></span></span><span class="amt" id="amtWhale"></span></div>
+      <div class="ledger-row"><span class="item">Dining<span class="detail" id="detDining"></span></span><span class="amt" id="amtDining"></span></div>
+      <div class="ledger-row"><span class="item">Cat sitter<span class="detail" id="detCats"></span></span><span class="amt" id="amtCats"></span></div>
+      <div class="ledger-total">
+        <span class="label">Estimated total, the two of us</span>
+        <span class="amt" id="totalAmt"></span>
+      </div>
+      <p class="ledger-foot">Estimates from July 2026 research; late-August peak pricing assumed. Hotel choice is the biggest lever &mdash; and the strongest argument for booking soon.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker">Every link in one place</div>
+    <h2>For your clicking pleasure</h2>
+    <ul class="linklist">
+      <li><a href="https://www.google.com/travel/flights" target="_blank" rel="noopener">Flight search: PHL &rarr; ACK</a><span class="what">fares &amp; schedules</span></li>
+      <li><a href="https://jaredcoffinhouse.com" target="_blank" rel="noopener">Jared Coffin House</a><span class="what">hotel option 1</span></li>
+      <li><a href="https://unioninn.com" target="_blank" rel="noopener">Union Street Inn</a><span class="what">hotel option 2</span></li>
+      <li><a href="https://www.thenantuckethotel.com" target="_blank" rel="noopener">The Nantucket Hotel</a><span class="what">hotel option 3</span></li>
+      <li><a href="https://youngsbicycleshop.com" target="_blank" rel="noopener">Young's Bicycle Shop</a><span class="what">bike rentals</span></li>
+      <li><a href="https://nha.org/visit/museums-and-tours/whaling-museum/" target="_blank" rel="noopener">Whaling Museum</a><span class="what">tickets &amp; hours</span></li>
+      <li><a href="https://www.nantucketbywater.com" target="_blank" rel="noopener">Nantucket by Water</a><span class="what">whale watch &amp; harbor tours</span></li>
+      <li><a href="https://fishernantucket.com/2026-nantucket-calendar-of-events/" target="_blank" rel="noopener">August events calendar</a><span class="what">Race Week, Pops &amp; more</span></li>
+      <li><a href="https://www.rover.com/philadelphia--pa--cat-sitting/" target="_blank" rel="noopener">Rover cat sitters</a><span class="what">Philadelphia drop-ins</span></li>
+    </ul>
+  </section>
+
+</main>
+
+<div class="totalbar" role="status">
+  <div class="wrap">
+    <span class="label"><a href="#ledgerSection" style="color:inherit">Running total &darr;</a></span>
+    <span class="amt" id="barAmt"></span>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>Drafted July 2026 &middot; Prices are estimates, not quotes &middot; Subject to fog</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // ---- Price data (all figures = [low, high] in USD, for two people) ----
+  var PRICES = {
+    flights: [700, 1000],
+    buffer:  [40, 70],
+    museum:  [40, 40],
+    whale:   [250, 400],
+    hotels: {
+      jared:     {label:"Jared Coffin House",        night:[450, 650]},
+      union:     {label:"Union Street Inn",          night:[600, 800]},
+      nanthotel: {label:"The Nantucket Hotel",       night:[650, 900]}
+    },
+    bikes: {
+      cruiser: {label:"cruiser / hybrid", day:[70, 90]},   // 2 people
+      trail:   {label:"trail bikes",      day:[90, 120]},
+      ebike:   {label:"e-bikes",          day:[180, 220]}
+    },
+    dining: {
+      casual:  {label:"mostly casual",        day:[130, 190]},
+      mix:     {label:"mix + nice dinners",   day:[180, 275]},
+      splurge: {label:"full splurge",         day:[275, 400]}
+    },
+    cats: {
+      once:  {label:"once daily",  day:[25, 45]},
+      twice: {label:"twice daily", day:[50, 85]}
+    }
+  };
+
+  // ---- State ----
+  var state = { nights:3, hotel:"jared", bike:"cruiser", dining:"casual", cats:"once", whale:true };
+
+  // ---- Helpers ----
+  function fmt(n){ return "$" + Math.round(n).toLocaleString("en-US"); }
+  function range(pair){ return fmt(pair[0]) + " \u2014 " + fmt(pair[1]); }
+  function scale(pair, mult){ return [pair[0]*mult, pair[1]*mult]; }
+  function $(id){ return document.getElementById(id); }
+
+  function selectIn(group, target, attr){
+    group.forEach(function(el){
+      var on = el === target;
+      el.classList.toggle("selected", on);
+      el.setAttribute("aria-checked", on ? "true" : "false");
+    });
+  }
+
+  // ---- Render ----
+  function render(){
+    var n = state.nights;
+    var hotel  = scale(PRICES.hotels[state.hotel].night, n);
+    var bikes  = scale(PRICES.bikes[state.bike].day, n);
+    var dining = scale(PRICES.dining[state.dining].day, n);
+    var cats   = scale(PRICES.cats[state.cats].day, n);
+    var whale  = state.whale ? PRICES.whale : [0,0];
+
+    $("amtFlights").textContent = range(PRICES.flights);
+    $("amtHotel").textContent   = range(hotel);
+    $("detHotel").textContent   = PRICES.hotels[state.hotel].label + " \u00b7 " + n + " nights";
+    $("amtBikes").textContent   = range(bikes);
+    $("detBikes").textContent   = PRICES.bikes[state.bike].label + " \u00b7 " + n + " days";
+    $("amtBuffer").textContent  = range(PRICES.buffer);
+    $("amtMuseum").textContent  = range(PRICES.museum);
+    $("amtWhale").textContent   = range(PRICES.whale);
+    $("detWhale").textContent   = state.whale ? "Nantucket by Water \u00b7 offshore" : "skipped \u2014 museum whale only";
+    $("rowWhale").classList.toggle("off", !state.whale);
+    $("amtDining").textContent  = range(dining);
+    $("detDining").textContent  = PRICES.dining[state.dining].label + " \u00b7 " + n + " days";
+    $("amtCats").textContent    = range(cats);
+    $("detCats").textContent    = PRICES.cats[state.cats].label + " \u00b7 " + n + " days";
+
+    var low  = PRICES.flights[0] + hotel[0] + bikes[0] + PRICES.buffer[0] + PRICES.museum[0] + whale[0] + dining[0] + cats[0];
+    var high = PRICES.flights[1] + hotel[1] + bikes[1] + PRICES.buffer[1] + PRICES.museum[1] + whale[1] + dining[1] + cats[1];
+    var text = fmt(low) + " \u2014 " + fmt(high);
+    $("totalAmt").textContent = text;
+    $("barAmt").textContent   = text;
+  }
+
+  // ---- Wire up: pills ----
+  function wirePills(containerId, stateKey, dataAttr, parse){
+    var container = $(containerId);
+    var pills = Array.prototype.slice.call(container.querySelectorAll(".pill"));
+    pills.forEach(function(pill){
+      pill.addEventListener("click", function(){
+        state[stateKey] = parse ? parse(pill.dataset[dataAttr]) : pill.dataset[dataAttr];
+        selectIn(pills, pill);
+        render();
+      });
+    });
+  }
+  wirePills("nightsPills", "nights", "nights", function(v){ return parseInt(v, 10); });
+  wirePills("diningPills", "dining", "key");
+  wirePills("catPills",    "cats",   "key");
+
+  // ---- Wire up: option cards ----
+  function wireCards(containerId, stateKey){
+    var container = $(containerId);
+    var cards = Array.prototype.slice.call(container.querySelectorAll(".opt"));
+    cards.forEach(function(card){
+      function choose(e){
+        if (e.target.closest("a")) return; // let links be links
+        state[stateKey] = card.dataset.key;
+        selectIn(cards, card);
+        render();
+      }
+      card.addEventListener("click", choose);
+      card.addEventListener("keydown", function(e){
+        if (e.key === "Enter" || e.key === " "){ e.preventDefault(); choose(e); }
+      });
+    });
+  }
+  wireCards("hotelOptions", "hotel");
+  wireCards("bikeOptions",  "bike");
+
+  // ---- Wire up: whale checkbox ----
+  $("whaleCheck").addEventListener("change", function(){
+    state.whale = this.checked;
+    render();
+  });
+
+  render();
+})();
+</script>
+
+</body>
+</html>
